@@ -14,6 +14,7 @@ The goal is to create a reproducible Python project that integrates unit testing
 -------------------------------------------------------------------------------
 2. PROJECT STRUCTURE
 -------------------------------------------------------------------------------
+```
 Lab1/
 │
 ├── data/                     # Placeholder for datasets or input files
@@ -36,7 +37,7 @@ Lab1/
 ├── requirements.txt          # Python dependencies
 ├── .gitignore                # Ignored files and folders (e.g., .venv, __pycache__)
 └── README.txt                # Documentation (this file)
-
+```
 -------------------------------------------------------------------------------
 3. STEP-BY-STEP IMPLEMENTATION
 -------------------------------------------------------------------------------
