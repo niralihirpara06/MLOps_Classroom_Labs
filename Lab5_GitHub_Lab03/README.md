@@ -1,141 +1,247 @@
-# GitHub Actions and GCP Connections: Beginner Lab
+# Lab 5: Automated ML Pipeline with GitHub Actions and GCP
 
-## Overview
-Welcome to the "GitHub Actions and GCP Connections" beginner lab! In this lab, you will learn how to automate a machine learning workflow using GitHub Actions and Google Cloud Platform (GCP). By the end of the lab, you will understand how to connect GitHub Actions to GCP, allowing you to automate the process of training a machine learning model and uploading the results to Google Cloud Storage (GCS).
+## Project Overview
+This lab demonstrates an end-to-end automated machine learning workflow using GitHub Actions and Google Cloud Platform. The pipeline trains a classification model and automatically deploys it to Google Cloud Storage, showcasing modern MLOps practices.
 
-The provided project includes a simple machine learning model (RandomForestClassifier) trained on the Iris dataset. Your focus will be on setting up the cloud environment and automating the workflow using GitHub Actions.
+---
 
-You can watch the video tutorial for this lab on our channel [video](https://youtu.be/H6D27FFh6D4)
+## 🎯 Learning Objectives
+- Set up CI/CD pipeline for machine learning using GitHub Actions
+- Integrate GitHub Actions with Google Cloud Platform
+- Automate model training and cloud deployment
+- Implement comprehensive model evaluation metrics
+- Manage cloud credentials securely using GitHub Secrets
 
-## Learning Objectives
-By completing this lab, you will:
+---
 
-1. Learn how to set up a GCP project and configure a service account for automation.
-2. Understand how to grant GitHub Actions access to your GCP project.
-3. Automate the process of training and saving a model using GitHub Actions.
-4. Use Google Cloud Storage (GCS) to store your trained machine learning model.
+## 🔧 Technologies & Tools
+- **Python 3.10** - Programming language
+- **scikit-learn** - Machine learning framework
+- **Google Cloud Storage** - Model storage and versioning
+- **GitHub Actions** - CI/CD automation
+- **Pandas** - Data manipulation
+- **Logistic Regression** - Classification algorithm
 
-## Setup
+---
 
-### Step 1: Create a New GitHub Repository
-1. Go to GitHub and create a new repository. Name it something like `gh-actions-gcp-beginner-lab`.
-2. Don't initialize the repository with a README or .gitignore.
-3. Note the URL of your new repository.
+## 📊 Model & Dataset
 
-### Step 2: Clone the Template Repository and Set Up Your Project
-Instead of cloning the original repository directly, we'll clone it, then push it to your new repository:
+### Dataset: Breast Cancer Wisconsin
+- **Samples**: 569 instances
+- **Features**: 30 numerical features (cell measurements)
+- **Classes**: Binary classification (Malignant vs Benign)
+- **Split**: 80% training, 20% testing
+- **Source**: scikit-learn datasets
 
-```bash
-# Clone the template repository
-git clone https://github.com/AshyScripts/github-actions-gcp-beginner-lab.git
+### Model: Logistic Regression
+- **Algorithm**: Logistic Regression Classifier
+- **Parameters**: 
+  - `max_iter=10000` (for convergence)
+  - `random_state=42` (reproducibility)
+- **Advantages**: Simple, interpretable, fast training
 
-# Navigate into the new directory
-cd github-actions-gcp-beginner-lab
+---
 
-# Remove the existing Git configuration
-rm -rf .git
+## 📈 Model Performance Metrics
 
-# Initialize a new Git repository
-git init
+Our trained model achieved excellent results on the test set:
 
-# Add all files to the new repository
-git add .
+| Metric | Score | Description |
+|--------|-------|-------------|
+| **Accuracy** | **95.61%** | Overall correct predictions |
+| **Precision** | **94.59%** | Accuracy of positive predictions |
+| **Recall** | **98.59%** | Ability to find all positive cases |
+| **F1-Score** | **96.55%** | Harmonic mean of precision and recall |
 
-# Commit the files
-git commit -m "Initial commit"
+### What These Metrics Mean:
+- **High Accuracy (95.61%)**: The model correctly classifies 95.61% of all cases
+- **High Precision (94.59%)**: When the model predicts malignant, it's correct 94.59% of the time
+- **Excellent Recall (98.59%)**: The model catches 98.59% of all actual malignant cases (critical for medical diagnosis!)
+- **Strong F1-Score (96.55%)**: Balanced performance between precision and recall
 
-# Set the remote to your new GitHub repository
-git remote add origin https://github.com/your-username/gh-actions-gcp-beginner-lab.git
+---
 
-# Push the code to your new repository
-git push -u origin main
+## 🔄 Key Modifications from Template
+
+### 1. **Model Change**
+- ❌ Original: Random Forest Classifier (100 estimators)
+- ✅ Modified: **Logistic Regression** (simpler, faster, more interpretable)
+
+### 2. **Dataset Change**
+- ❌ Original: Iris dataset (150 samples, 4 features)
+- ✅ Modified: **Breast Cancer dataset** (569 samples, 30 features)
+
+### 3. **Enhanced Evaluation Metrics**
+- ❌ Original: Only Accuracy
+- ✅ Modified: **Accuracy + Precision + Recall + F1-Score**
+
+### 4. **Workflow Customization**
+- ❌ Original: "Train and save model to GCS"
+- ✅ Modified: **"ML Model Training Pipeline"**
+
+### 5. **Model File Naming**
+- ❌ Original: `model_{timestamp}.joblib`
+- ✅ Modified: **`logistic_model_{timestamp}.joblib`**
+
+### 6. **Execution Mode**
+- ❌ Original: Automatic daily runs (cron schedule)
+- ✅ Modified: **Manual trigger only** (workflow_dispatch)
+
+---
+
+## 📁 Project Structure
+```
+Lab5_GitHub_Lab03/
+├── train_and_save_model.py    # ML training script with 4 evaluation metrics
+├── requirements.txt            # Python dependencies
+└── README.md                   # Project documentation
+
+.github/workflows/
+└── run.yaml                    # GitHub Actions workflow configuration
 ```
 
-Replace `your-username` with your actual GitHub username in the remote URL.
+---
 
-### Step 3: Create a Virtual Environment and Install Dependencies
-To follow along this lab, you need to install required dependencies:
+## ⚙️ Setup & Configuration
 
+### Prerequisites
+1. ✅ GitHub account
+2. ✅ Google Cloud Platform account
+3. ✅ GCP Service Account with `Storage Admin` role
+4. ✅ GCS bucket created
+
+### Step 1: GCP Setup
 ```bash
-python -m venv venv
-source venv/bin/activate  # For Windows, use `venv\Scripts\activate`
+# 1. Create GCP Project: mlops-github-actions-lab
+# 2. Create Service Account: github-actions-lab03
+# 3. Assign Role: Storage Admin
+# 4. Generate JSON key and download securely
+```
+
+### Step 2: Create GCS Bucket
+```bash
+# Bucket Name: mlops-lab03-github-actions
+# Region: us-east1 (or your preferred region)
+# Storage Class: Standard
+# Access Control: Uniform
+```
+
+### Step 3: Configure GitHub Secrets
+1. Go to Repository → Settings → Secrets and variables → Actions
+2. Create new secret:
+   - **Name**: `GCP_GITHUB_ACTION_KEY`
+   - **Value**: Paste entire JSON key content
+
+### Step 4: Install Dependencies
+```bash
 pip install -r requirements.txt
 ```
 
-### Step 4: Set Up Google Cloud Platform (GCP)
-1. Create a New GCP Project in Google Cloud Console. 
-2. Create a service account and give it the required roles and permissions to interact with Google Cloud Storage. Go to `IAM & Admin` section and add the `Storage Admin` role.
-3. Generate a JSON key for the service account. Save it securely.
+---
 
-### Step 5: Create a Google Cloud Storage (GCS) Bucket
-1. Go to Google Cloud Console
-2. Navigate to the Storage section, and select Buckets
-3. Create a new bucket. Choose a unique name for your bucket.
-4. Note the bucket name for use in the `train_and_save_model.py` script and the GitHub Actions workflow.
+## 🚀 Running the Pipeline
 
-### Step 6: Upload the Service Account JSON Key to GitHub Actions Secrets
-1. Go to your GitHub repository's Settings.
-2. Navigate to Secrets and variables > Actions > New repository secret.
-3. Name the secret `GCP_SA_KEY`.
-4. Paste the entire contents of the service account JSON key file into the secret value field and click Add secret.
+### Option 1: Manual Trigger (GitHub Actions)
+1. Go to repository **Actions** tab
+2. Select **"ML Model Training Pipeline"**
+3. Click **"Run workflow"**
+4. Select branch: **main**
+5. Click **"Run workflow"** button
+6. Monitor progress and check logs
 
-### Step 7: Set Up GitHub Actions Workflow
-Now that you’ve added the JSON key, we can set up the GitHub Actions workflow to automate the model training and uploading process.
+### Option 2: Run Locally
+```bash
+# Set GCP credentials
+export GOOGLE_APPLICATION_CREDENTIALS="path/to/service-account-key.json"
 
-1. In the root directory of the project, there should be a folder named `.github` and in this folder, there should be another folder (nested) named `workflows`. This is where GitHub Actions read different workflow `yaml` files. 
-
-2. For the current project, there should be a file in `.github/workflows` named `train-and-upload.yml`. If not, create a file with this name and this file should have below content:
-
-```yaml
-name: Train and save model to GCS
-
-on:
-  schedule:
-    - cron: '0 0 * * *' # Run every day at midnight
-  workflow_dispatch: # Run manually
-
-jobs:
-  train_and_save:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout the code
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-
-      - name: Get cache dir 
-        id: pip-cache-dir
-        run: echo "dir=$(pip cache dir)" >> $GITHUB_OUTPUT
-      
-      - name: Cache pip dependencies
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.pip-cache-dir.outputs.dir}}
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-      
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      
-      - name: Authenticate with GCP
-        uses: 'google-github-actions/auth@v2'
-        with:
-          credentials_json: '${{ secrets.GCP_SA_KEY }}'
-
-      - name: Train and save model
-        run: |
-          python train_and_save_model.py
+# Run training script
+python train_and_save_model.py
 ```
- In this workflow we are instructing GitHub Actions to do below step by defining `train_and_save` job:
- 
- - Workflow is scheduled to run each day at midnight using cron expressions.
- - Then we check out the code (`actions/checkout@v4`), and then we set up a Python environment (`actions/setup-python@v5`) with version `3.10` to run the necessary scripts.
- - We get the directory where `pip` caches installed dependencies. 
-- Cache pip dependencies: this is a useful step which caches pip dependencies based on the `requirements.txt`. `key` parameter is set to be based on the `runner.os` and also we use `hashFiles('**/requirements.txt')` to generate a unique number based on the requiremenets. So, if in the future runs, requirements is updated, GitHub Actions will install the new dependencies. 
-- Authenticate with GCP: This step authenticates the GitHub Actions runner with Google Cloud using the service account key stored in the GitHub repository secrets as `GCP_SA_KEY`. This authentication allows the workflow to interact with Google Cloud resources, such as Google Cloud Storage (GCS).
+
+Expected output:
+```
+Model Accuracy: 0.9561
+Model Precision: 0.9459
+Model Recall: 0.9859
+Model F1-Score: 0.9655
+Model saved to gs://mlops-lab03-github-actions/trained_models/logistic_model_20251118023447.joblib
+```
+
+---
+
+## 🔐 GitHub Actions Workflow
+
+### Workflow File: `.github/workflows/run.yaml`
+
+**Trigger**: Manual only (`workflow_dispatch`)
+
+**Steps**:
+1. 📥 **Checkout code** - Clone repository
+2. 🐍 **Setup Python 3.10** - Configure environment
+3. 💾 **Cache dependencies** - Speed up builds
+4. 📦 **Install packages** - Install requirements
+5. 🔑 **Authenticate GCP** - Use service account key
+6. 🤖 **Train model** - Execute training script
+7. ☁️ **Upload to GCS** - Save model with timestamp
+
+---
+
+## 📦 Cloud Storage Structure
+```
+gs://mlops-lab03-github-actions/
+└── trained_models/
+    ├── logistic_model_20251118023447.joblib  # Latest model
+    └── model_20251118022243.joblib           # Previous RandomForest model
+```
+
+Each model is timestamped for version tracking and comparison.
+
+---
+
+## 🧪 Code Highlights
+
+### Training Function
+```python
+def train_model(X_train, y_train):
+    model = LogisticRegression(max_iter=10000, random_state=42)
+    model.fit(X_train, y_train)
+    return model
+```
+
+### Comprehensive Evaluation
+```python
+accuracy = accuracy_score(y_test, y_pred)
+precision = precision_score(y_test, y_pred)
+recall = recall_score(y_test, y_pred)
+f1 = f1_score(y_test, y_pred)
+```
+
+---
+
+## 🎓 What I Learned
+1. ✅ Setting up automated ML pipelines with GitHub Actions
+2. ✅ Integrating cloud services (GCP) with CI/CD workflows
+3. ✅ Secure credential management using GitHub Secrets
+4. ✅ Implementing comprehensive model evaluation
+5. ✅ Version control for ML models using timestamps
+6. ✅ Best practices for MLOps workflows
+
+---
+
+## 🔮 Future Improvements
+- [ ] Add hyperparameter tuning with GridSearchCV
+- [ ] Implement model comparison and A/B testing
+- [ ] Deploy model as REST API endpoint
+- [ ] Add email notifications on workflow completion
+- [ ] Create model performance dashboard
+- [ ] Implement automatic retraining on data drift
+
+---
+
+## 📚 References
+- [GitHub Actions Documentation](https://docs.github.com/en/actions)
+- [Google Cloud Storage Python Client](https://cloud.google.com/storage/docs/reference/libraries)
+- [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html)
+- [Breast Cancer Dataset](https://scikit-learn.org/stable/datasets/toy_dataset.html#breast-cancer-dataset)
+
+---
