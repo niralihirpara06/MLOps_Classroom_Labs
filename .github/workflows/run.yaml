@@ -1,4 +1,4 @@
-name: Train and save model to GCS # Define the name of the GitHub Actions workflow
+name: ML Model Training Pipeline # Define the name of the GitHub Actions workflow
 
 on:
   #schedule:
