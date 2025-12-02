@@ -1,0 +1,78 @@
+2025-12-01 20:31:58 | PipelineMonitor | DEBUG | Starting data validation checks
+2025-12-01 20:31:58 | PipelineMonitor | INFO | Original dataset shape: (15, 7)
+2025-12-01 20:31:58 | PipelineMonitor | WARNING | Removed 3 rows with missing critical data
+2025-12-01 20:31:58 | PipelineMonitor | INFO | Cleaned dataset shape: (12, 7)
+2025-12-01 20:31:58 | ETL_Process | DEBUG | Starting data transformation phase
+2025-12-01 20:31:58 | ETL_Process | INFO | Created 'total_amount' calculated column
+2025-12-01 20:31:58 | ETL_Process | INFO | Aggregated sales by region: 4 regions analyzed
+2025-12-01 20:31:58 | ETL_Process | DEBUG | East region total sales: $75.00
+2025-12-01 20:31:58 | ETL_Process | DEBUG | North region total sales: $1403.98
+2025-12-01 20:31:58 | ETL_Process | DEBUG | South region total sales: $600.87
+2025-12-01 20:31:58 | ETL_Process | DEBUG | West region total sales: $1319.98
+2025-12-01 20:31:58 | ETL_Process | INFO | Best-selling product: Mouse with 10 units sold
+2025-12-01 20:31:58 | ETL_Process | ERROR | Cannot process 1 orders with missing prices
+2025-12-01 20:31:58 | ETL_Process | ERROR | Price validation failed during revenue calculation
+Traceback (most recent call last):
+  File "D:\Classroom_Labs\Class_Labs\MLOps_Classroom_Labs\Lab_06\logging_starter.py", line 205, in <module>
+    raise ValueError(f"Found {len(invalid_prices)} records with invalid price data")
+ValueError: Found 1 records with invalid price data
+2025-12-01 20:31:58 | ETL_Process | ERROR | Backup data file not found - proceeding with primary dataset only
+Traceback (most recent call last):
+  File "D:\Classroom_Labs\Class_Labs\MLOps_Classroom_Labs\Lab_06\logging_starter.py", line 211, in <module>
+    backup_df = pd.read_csv("backup_sales_data.csv")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\niral\anaconda3\Lib\site-packages\pandas\io\parsers\readers.py", line 1026, in read_csv
+    return _read(filepath_or_buffer, kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\niral\anaconda3\Lib\site-packages\pandas\io\parsers\readers.py", line 620, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\niral\anaconda3\Lib\site-packages\pandas\io\parsers\readers.py", line 1620, in __init__
+    self._engine = self._make_engine(f, self.engine)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\niral\anaconda3\Lib\site-packages\pandas\io\parsers\readers.py", line 1880, in _make_engine
+    self.handles = get_handle(
+                   ^^^^^^^^^^^
+  File "C:\Users\niral\anaconda3\Lib\site-packages\pandas\io\common.py", line 873, in get_handle
+    handle = open(
+             ^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'backup_sales_data.csv'
+2025-12-01 20:35:49 | PipelineMonitor | DEBUG | Starting data validation checks
+2025-12-01 20:35:49 | PipelineMonitor | INFO | Original dataset shape: (15, 7)
+2025-12-01 20:35:49 | PipelineMonitor | WARNING | Removed 3 rows with missing critical data
+2025-12-01 20:35:49 | PipelineMonitor | INFO | Cleaned dataset shape: (12, 7)
+2025-12-01 20:35:49 | ETL_Process | DEBUG | Starting data transformation phase
+2025-12-01 20:35:49 | ETL_Process | INFO | Created 'total_amount' calculated column
+2025-12-01 20:35:49 | ETL_Process | INFO | Aggregated sales by region: 4 regions analyzed
+2025-12-01 20:35:49 | ETL_Process | DEBUG | East region total sales: $75.00
+2025-12-01 20:35:49 | ETL_Process | DEBUG | North region total sales: $1403.98
+2025-12-01 20:35:49 | ETL_Process | DEBUG | South region total sales: $600.87
+2025-12-01 20:35:49 | ETL_Process | DEBUG | West region total sales: $1319.98
+2025-12-01 20:35:49 | ETL_Process | INFO | Best-selling product: Mouse with 10 units sold
+2025-12-01 20:35:49 | ETL_Process | ERROR | Cannot process 1 orders with missing prices
+2025-12-01 20:35:49 | ETL_Process | ERROR | Price validation failed during revenue calculation
+Traceback (most recent call last):
+  File "D:\Classroom_Labs\Class_Labs\MLOps_Classroom_Labs\Lab_06\logging_starter.py", line 205, in <module>
+    raise ValueError(f"Found {len(invalid_prices)} records with invalid price data")
+ValueError: Found 1 records with invalid price data
+2025-12-01 20:35:49 | ETL_Process | ERROR | Backup data file not found - proceeding with primary dataset only
+Traceback (most recent call last):
+  File "D:\Classroom_Labs\Class_Labs\MLOps_Classroom_Labs\Lab_06\logging_starter.py", line 211, in <module>
+    backup_df = pd.read_csv("backup_sales_data.csv")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\niral\anaconda3\Lib\site-packages\pandas\io\parsers\readers.py", line 1026, in read_csv
+    return _read(filepath_or_buffer, kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\niral\anaconda3\Lib\site-packages\pandas\io\parsers\readers.py", line 620, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\niral\anaconda3\Lib\site-packages\pandas\io\parsers\readers.py", line 1620, in __init__
+    self._engine = self._make_engine(f, self.engine)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\niral\anaconda3\Lib\site-packages\pandas\io\parsers\readers.py", line 1880, in _make_engine
+    self.handles = get_handle(
+                   ^^^^^^^^^^^
+  File "C:\Users\niral\anaconda3\Lib\site-packages\pandas\io\common.py", line 873, in get_handle
+    handle = open(
+             ^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'backup_sales_data.csv'
